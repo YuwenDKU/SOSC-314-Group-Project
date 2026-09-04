@@ -1,15 +1,13 @@
-#create csv for 5 pilots cities of different Eastern provinces since the eastern cities are equipped with relatively complete and transparent fiscal and tax information
+#create csv for 11 pilots cities of different Eastern provinces since the eastern cities are equipped with relatively complete and transparent fiscal and tax information
 csv
-city,province,website_url,source_type,notes
-南京,江苏,http://www.nanjing.gov.cn,市政府,东部发达城市
-苏州,江苏,http://www.suzhou.gov.cn,市政府,东部发达城市
-杭州,浙江,http://www.hangzhou.gov.cn,市政府,东部发达城市
-宁波,浙江,http://www.ningbo.gov.cn,市政府,东部发达城市
-广州,广东,http://www.gz.gov.cn,市政府,东部发达城市
-深圳,广东,http://www.sz.gov.cn,市政府,东部发达城市
-济南,山东,http://www.jinan.gov.cn,市政府,东部发达城市
-青岛,山东,http://www.qingdao.gov.cn,市政府,东部发达城市
-福州,福建,http://www.fuzhou.gov.cn,市政府,东部发达城市
-厦门,福建,http://www.xm.gov.cn,市政府,东部发达城市
-上海,上海,http://www.shanghai.gov.cn,市政府,直辖市
-天津,天津,http://www.tj.gov.cn,市政府,直辖市
+Nanjing,Jiangsu,http://www.nanjing.gov.cn,municipal_government,developed_eastern_city
+Suzhou,Jiangsu,http://www.suzhou.gov.cn,municipal_government,developed_eastern_city
+Hangzhou,Zhejiang,http://www.hangzhou.gov.cn,municipal_government,developed_eastern_city
+Ningbo,Zhejiang,http://www.ningbo.gov.cn,municipal_government,developed_eastern_city
+Guangzhou,Guangdong,http://www.gz.gov.cn,municipal_government,developed_eastern_city
+Shenzhen,Guangdong,http://www.sz.gov.cn,municipal_government,developed_eastern_city
+Jinan,Shandong,http://www.jinan.gov.cn,municipal_government,developed_eastern_city
+Qingdao,Shandong,http://www.qingdao.gov.cn,municipal_government,developed_eastern_city
+Fuzhou,Fujian,http://www.fuzhou.gov.cn,municipal_government,developed_eastern_city
+Xiamen,Fujian,http://www.xm.gov.cn,municipal_government,developed_eastern_city
+Shanghai,Shanghai,http://www.shanghai.gov.cn,municipal_government,direct-controlled_municipality

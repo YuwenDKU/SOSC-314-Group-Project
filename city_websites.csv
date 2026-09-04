@@ -1,13 +1,7 @@
-#create csv for 11 pilots cities of different Eastern provinces since the eastern cities are equipped with relatively complete and transparent fiscal and tax information
+#create csv for 5 pilots cities of different Eastern provinces since the eastern cities are equipped with relatively complete and transparent fiscal and tax information
 csv
 Nanjing,Jiangsu,http://www.nanjing.gov.cn,municipal_government,developed_eastern_city
 Suzhou,Jiangsu,http://www.suzhou.gov.cn,municipal_government,developed_eastern_city
 Hangzhou,Zhejiang,http://www.hangzhou.gov.cn,municipal_government,developed_eastern_city
 Ningbo,Zhejiang,http://www.ningbo.gov.cn,municipal_government,developed_eastern_city
 Guangzhou,Guangdong,http://www.gz.gov.cn,municipal_government,developed_eastern_city
-Shenzhen,Guangdong,http://www.sz.gov.cn,municipal_government,developed_eastern_city
-Jinan,Shandong,http://www.jinan.gov.cn,municipal_government,developed_eastern_city
-Qingdao,Shandong,http://www.qingdao.gov.cn,municipal_government,developed_eastern_city
-Fuzhou,Fujian,http://www.fuzhou.gov.cn,municipal_government,developed_eastern_city
-Xiamen,Fujian,http://www.xm.gov.cn,municipal_government,developed_eastern_city
-Shanghai,Shanghai,http://www.shanghai.gov.cn,municipal_government,direct-controlled_municipality

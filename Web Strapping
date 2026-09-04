@@ -1,1 +1,40 @@
+# Mount Google Drive to permanently store downloaded files
+from google.colab import drive
+drive.mount('/content/drive')
 
+# Create project folders in Drive
+!mkdir -p "/content/drive/MyDrive/SOSC314_PolicyScraper"
+!mkdir -p "/content/drive/MyDrive/SOSC314_PolicyScraper/downloads"
+!mkdir -p "/content/drive/MyDrive/SOSC314_PolicyScraper/output"
+
+print("Drive mounted and folders created!")
+
+# Install required libraries
+!pip install requests beautifulsoup4 pandas lxml selenium
+
+# Install Chromium for Selenium
+!apt-get update
+!apt-get install -y chromium-chromedriver
+
+# Import all necessary libraries for web scraping
+import requests
+import pandas as pd
+import time
+import re
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+import os
+
+# Load city websites from GitHub
+GITHUB_CSV_URL = "https://raw.githubusercontent.com/YuwenDKU/SOSC-314-Group-Project/refs/heads/main/city_websites.csv"
+response = requests.get(GITHUB_CSV_URL)
+cities_df = pd.read_csv(StringIO(response.text))
+print(f"Loaded {len(cities_df)} cities from GitHub")
+
+# Define scraping parameters
+TAX_KEYWORDS = [
+    "税收优惠", "税收减免", "企业所得税减免", "增值税减免",
+    "税收返还", "财政奖励", "高新技术企业", "所得税优惠",
+    "即征即退", "先征后返", "留抵退税"
+]
+TARGET_YEARS = ["2010", "2011", "2012", "2013"]

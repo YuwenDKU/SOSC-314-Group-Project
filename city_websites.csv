@@ -1,5 +1,6 @@
 #create csv for 5 pilots cities of different Eastern provinces since the eastern cities are equipped with relatively complete and transparent fiscal and tax information
 csv
+city,province,website_url,source_type,notes
 Nanjing,Jiangsu,http://www.nanjing.gov.cn,municipal_government,developed_eastern_city
 Suzhou,Jiangsu,http://www.suzhou.gov.cn,municipal_government,developed_eastern_city
 Hangzhou,Zhejiang,http://www.hangzhou.gov.cn,municipal_government,developed_eastern_city

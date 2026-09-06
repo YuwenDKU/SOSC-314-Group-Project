@@ -1,7 +1,0 @@
-csv
-city,province,website_url,source_type,notes
-Nanjing,Jiangsu,http://www.nanjing.gov.cn,municipal_government,developed_eastern_city
-Suzhou,Jiangsu,http://www.suzhou.gov.cn,municipal_government,developed_eastern_city
-Hangzhou,Zhejiang,http://www.hangzhou.gov.cn,municipal_government,developed_eastern_city
-Ningbo,Zhejiang,http://www.ningbo.gov.cn,municipal_government,developed_eastern_city
-Guangzhou,Guangdong,http://www.gz.gov.cn,municipal_government,developed_eastern_city

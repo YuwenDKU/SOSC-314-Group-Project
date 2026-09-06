@@ -1,2 +1,3 @@
 # SOSC-314-Group-Project：Yuwen Zhou; Tianyi Xie ; Meina
-W2:Problem Formulation & Data Feasibility
+Research Question: Do cities with higher fiscal capacity use more sophisticated industrial policy instruments?
+Task Overall Distribution:

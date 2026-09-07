@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Five cities' 2025 fiscal revenue data (RMB billion)
 data = {

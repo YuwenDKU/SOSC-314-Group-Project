@@ -13,6 +13,11 @@ concessions and tax reductions?
 ## Hypothesis
 Fiscal capacity determines the menu of industrial policy instruments available to local governments. Wealthier cities can afford long-term, high-risk, and equity-based policy tools, while less affluent cities rely on low-cost, short-term instruments.
 
+**Methodological Foundations**  
+   - Meng (2013) – RDD in Chinese fiscal context.  
+   - Terechshenko & Linder (2022) – text classification in political science.  
+   - Bosley et al. (2025) – active learning for probabilistic text models.
+
 ### Data Sources
 
 - **HTML sources**: Shanghai, Suzhou – scraped using `requests` + `BeautifulSoup`.

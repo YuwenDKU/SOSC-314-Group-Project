@@ -181,54 +181,70 @@ for i, c in enumerate(df['content'].sample(20, random_state=42).tolist(), 1):
     print(f"{i}. {c}")# STEP 1: Build a dictionary mapping each dimension to its keywords
 dims = dictionary.groupby('dimension')['keyword'].apply(list).to_dict()
 
-# For each dimension, check whether each comment matches any keyword in that dimension's list
-for dim, words in dims.items():
-# Join all keywords with "|" to build a regex OR pattern
-    pattern = '|'.join(words)
-# Create a new boolean column: True if the comment contains any keyword
-    df[dim] = df['content'].str.contains(pattern, na=False)
-    
-# Count how many comments matched this dimension
-    count = df[dim].sum()
-    pct = count / len(df) * 100
-    
-# Print the result for this dimension
-    print(f"{dim}: {count} comments ({pct:.1f}%)")
-
-# Overall summary
-print(f"\nTotal comments: {len(df)}")
-
-# Count comments that match at least one dimension
-matched_any = df[list(dims.keys())].any(axis=1).sum()
-print(f"Comments matching at least one dimension: {matched_any}")
+#Data Overview
+import pandas as pd
+df = pd.read_csv('/content/bilibili_comments.csv')
+print(f"实际评论数: {len(df)}")
+print(f"各视频分布:")
+print(df['source_video'].value_counts())
+print(f"重复评论: {df['content'].duplicated().sum()}")
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load data
+# Load the raw comments scraped from Bilibili
 df = pd.read_csv('/content/bilibili_comments.csv')
+print(f"Raw comments: {len(df)}")
+
+# Remove duplicate comments to avoid over-representing viral phrases
+df = df.drop_duplicates(subset=['content'])
+print(f"After deduplication: {len(df)}")
+
+# Remove comments shorter than 5 characters, which typically carry no analysable framing content
+df = df[df['content'].str.len() >= 5]
+print(f"After length filter: {len(df)}")
+
+# Keep only comments containing Chinese characters, removing pure-English or emoji-only comments
+df = df[df['content'].str.contains(r'[\u4e00-\u9fff]', na=False)]
+print(f"After language filter: {len(df)}")
+
+# Save the cleaned corpus to a new CSV for reuse in later analysis
+df.to_csv('/content/bilibili_comments_clean.csv', index=False, encoding='utf-8-sig')
+print(f"\nFinal cleaned corpus: {len(df)} comments")
+print("Comments per video:")
+print(df['source_video'].value_counts())
+
+# Load the seed dictionary that maps each framing dimension to its keywords
 dictionary = pd.read_csv('/content/seed.csv')
 
-# Build dimension -> keywords mapping
+# Group keywords by dimension to get a dict like {'genuine_attachment': ['爱', '心动', ...], ...}
 dims = dictionary.groupby('dimension')['keyword'].apply(list).to_dict()
 
-# For each dimension, mark comments that contain any keyword
+# For each dimension, check whether each comment contains any keyword in that dimension's list
 for dim, words in dims.items():
-    pattern = '|'.join(words)
-    df[dim] = df['content'].str.contains(pattern, na=False)
+    pattern = '|'.join(words)  # Build a regex OR pattern
+    df[dim] = df['content'].str.contains(pattern, na=False)  # Binary multi-label coding
+    count = df[dim].sum()
+    pct = count / len(df) * 100
+    print(f"{dim}: {count} ({pct:.1f}%)")
 
-# Compute counts and percentages
+print(f"\nTotal comments: {len(df)}")
+
+# Count how many comments match at least one dimension
+matched_any = df[list(dims.keys())].any(axis=1).sum()
+print(f"Comments matching at least one dimension: {matched_any}")
+
+# Figure 1: bar chart showing the distribution of the four framing dimensions
 counts = [df[d].sum() for d in dims]
 pcts = [c / len(df) * 100 for c in counts]
 labels = ['Genuine\nAttachment', 'Emotional\nSubstitution',
           'Playful\nPerformance', 'Dangerous\nDependence']
 
-# Figure 1 — bar chart of dimension distribution
 fig, ax = plt.subplots(figsize=(8, 5))
 bars = ax.bar(labels, pcts, color=['#4C72B0', '#DD8452', '#55A868', '#C44E52'])
 ax.set_ylabel('Percentage of comments (%)')
 ax.set_title(f'Framing Dimensions in Bilibili Comments (n={len(df)})')
-ax.set_ylim(0, max(pcts) * 1.3 if max(pcts) > 0 else 10)
+ax.set_ylim(0, max(pcts) * 1.3)
 
 for bar, pct in zip(bars, pcts):
     ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,

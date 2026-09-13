@@ -116,10 +116,10 @@ Each retained text is scored independently on four dimensions:
 
 | Code | Dimension | Example indicators |
 |---|---|---|
-| **D1** | Genuine Attachment | 爱, 心动, 想念, 陪伴, 灵魂伴侣, 破防, 谈恋爱, 真的喜欢, 伴侣 |
+| **D1** | Genuine Attachment | 爱, 心动, 想念, 灵魂伴侣, 破防, 谈恋爱, 真的喜欢, 伴侣 |
 | **D2** | Emotional Substitution | 男朋友/女朋友, 替代, 现实没人, 填补, 因为孤独, 比真人, 任何事, 情绪价值, 倾诉, 不如AI |
 | **D3** | Playful Performance | 玩, 试试, 整活, 图一乐, 电子宠物, 赛博男友, 帮助, 奇妙, 浪漫, 哈哈哈, 意义, 开心 |
-| **D4** | Dangerous Dependence | 上瘾, 沉迷, 戒断, 走不出来, 影响生活, 眼泪, 陪伴, 没有, 影响生活, 痛苦, 崩溃 |
+| **D4** | Dangerous Dependence | 上瘾, 沉迷, 戒断, 走不出来, 影响生活, 眼泪, 陪伴, 没有, 痛苦, 崩溃 |
 
 Scoring scale:
 

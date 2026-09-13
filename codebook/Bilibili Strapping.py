@@ -18,6 +18,8 @@
 #Install the bilibili-api library and aiohttp for async HTTP requests
 !pip install bilibili-api-python aiohttp
 
+** Text Srapping **
+
 import asyncio
 import pandas as pd
 from bilibili_api import comment, video, Credential
@@ -87,6 +89,8 @@ async def main():
 
 await main()
 
+** Labeled csv **
+
 import pandas as pd
 
 #  Load the combined comments CSV
@@ -115,6 +119,8 @@ print(f"Total rows: {len(df)}")
 # Preview
 print()
 print(df[['video_label', 'content']].head(10))
+
+** Dictionary **
 
 import os
 import pandas as pd
@@ -156,8 +162,9 @@ data = {
 df = pd.DataFrame(data)
 df.to_csv('dictionaries/seed.csv', index=False, encoding='utf-8-sig')
 
+** 20 comments pilot run **
+
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Load both CSV files using their actual paths
 df = pd.read_csv('/content/bilibili_comments.csv')
@@ -188,6 +195,8 @@ print(f"实际评论数: {len(df)}")
 print(f"各视频分布:")
 print(df['source_video'].value_counts())
 print(f"重复评论: {df['content'].duplicated().sum()}")
+
+** Data Cleaning **
 
 import pandas as pd
 import matplotlib.pyplot as plt

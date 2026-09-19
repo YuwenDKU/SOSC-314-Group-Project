@@ -152,7 +152,7 @@ df.to_csv('dictionaries/seed.csv', index=False, encoding='utf-8-sig')
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Step 1: Load both CSV files using their actual paths
+#  Load both CSV files using their actual paths
 df = pd.read_csv('/content/bilibili_comments.csv')
 dictionary = pd.read_csv('/content/dictionaries/seed.csv')
 

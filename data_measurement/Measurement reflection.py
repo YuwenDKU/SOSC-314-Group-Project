@@ -1,4 +1,11 @@
-*Figure 1 presented the distribution of the four framing dimensions: Playful Performance was the most frequent (26.0%), followed by Genuine Attachment (15.0%), Dangerous Dependence (5.8%), and Emotional Substitution (4.8%). Together, the four dimensions covered only 51.6% of the corpus, which raised a follow-up question: where did the remaining comments go?*
+"""
+Figure 1 presented the distribution of the four framing dimensions:
+Playful Performance was the most frequent (26.0%), followed by
+Genuine Attachment (15.0%), Dangerous Dependence (5.8%), and
+Emotional Substitution (4.8%). Together, the four dimensions covered
+only 51.6% of the corpus, which raised a follow-up question: where
+did the remaining comments go?
+"""
 import pandas as pd
 import matplotlib.pyplot as plt
 

@@ -39,9 +39,25 @@ for i in range(5):
 
 print(f"Total rows with tokens: {len(df)}")
 
+import pandas as pd
+import jieba
+import re
+import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
+
+# Load data
+df = pd.read_csv('/content/bilibili_comments_labeled_clean.csv')
+
+# Tokenize if not present
+if 'tokens' not in df.columns:
+    stopwords = set(['的','了','是','在','我','你','他','她','它','这','那','就','都','也','和'])
+    def tokenize(text):
+        text = re.sub(r'[^\u4e00-\u9fff]', ' ', str(text))
+        return ' '.join([w for w in jieba.cut(text) if w not in stopwords and len(w) > 1])
+    df['tokens'] = df['content'].apply(tokenize)
 
 # Vectorize
 cv = CountVectorizer(max_features=1000)
@@ -50,46 +66,32 @@ X_count = cv.fit_transform(df['tokens'])
 tfidf = TfidfVectorizer(max_features=1000)
 X_tfidf = tfidf.fit_transform(df['tokens'])
 
-print(f"CountVectorizer: {X_count.shape}")
-print(f"TfidfVectorizer: {X_tfidf.shape}")
-
-# Train LogisticRegression for each dimension
 dims = ['genuine_attachment', 'emotional_substitution',
         'playful_performance', 'dangerous_dependence']
 
-results = {}
+# Compute F1 automatically
+count_f1 = []
+tfidf_f1 = []
+
 for dim in dims:
     y = df[dim].astype(int)
-    print(f"\n===== {dim} =====")
-    print(f"Positive: {y.sum()} / {len(y)} ({y.mean()*100:.1f}%)")
     
-    # CountVectorizer
-    clf_count = LogisticRegression(max_iter=1000, class_weight='balanced')
-    scores_count = cross_val_score(clf_count, X_count, y, cv=5, scoring='f1')
-    print(f"Count + LR F1: {scores_count.mean():.3f} (±{scores_count.std():.3f})")
+    clf_c = LogisticRegression(max_iter=1000, class_weight='balanced')
+    f1_c = cross_val_score(clf_c, X_count, y, cv=5, scoring='f1').mean()
+    count_f1.append(f1_c)
     
-    # TfidfVectorizer
-    clf_tfidf = LogisticRegression(max_iter=1000, class_weight='balanced')
-    scores_tfidf = cross_val_score(clf_tfidf, X_tfidf, y, cv=5, scoring='f1')
-    print(f"TF-IDF + LR F1: {scores_tfidf.mean():.3f} (±{scores_tfidf.std():.3f})")
-    
-    # Keep the TF-IDF model for coefficient analysis
-    clf_tfidf.fit(X_tfidf, y)
-    results[dim] = clf_tfidf
-  
+    clf_t = LogisticRegression(max_iter=1000, class_weight='balanced')
+    f1_t = cross_val_score(clf_t, X_tfidf, y, cv=5, scoring='f1').mean()
+    tfidf_f1.append(f1_t)
+
+print("Count F1:", [f"{x:.3f}" for x in count_f1])
+print("TF-IDF F1:", [f"{x:.3f}" for x in tfidf_f1])
+
 # Figure 3: Compare CountVectorizer vs. TfidfVectorizer on the same classification task.
 #The classifier (LogisticRegression) and feature count (1000) are held constant.
 
-import matplotlib.pyplot as plt
-import numpy as np
-
-dims = ['genuine_attachment', 'emotional_substitution',
-        'playful_performance', 'dangerous_dependence']
 labels = ['Genuine\nAttachment', 'Emotional\nSubstitution',
           'Playful\nPerformance', 'Dangerous\nDependence']
-
-count_f1 = [0.552, 0.482, 0.587, 0.868]
-tfidf_f1 = [0.548, 0.515, 0.492, 0.800]
 
 x = np.arange(len(labels))
 width = 0.35
@@ -114,3 +116,6 @@ for bars in [bars1, bars2]:
 plt.tight_layout()
 plt.savefig('/content/fig_representation_comparison.png', dpi=300)
 plt.show()
+
+
+  

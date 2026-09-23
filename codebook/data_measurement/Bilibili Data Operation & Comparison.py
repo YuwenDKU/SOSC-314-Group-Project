@@ -1,6 +1,5 @@
 #Preprocessing: tokenize Chinese comments with jieba, remove stopwords, 
-and keep only multi-character Chinese words for downstream vectorization 
-(CountVectorizer / TfidfVectorizer) and classification.
+#and keep only multi-character Chinese words for downstream vectorization (CountVectorizer / TfidfVectorizer) and classification.
 
 import pandas as pd
 import jieba

@@ -4,7 +4,6 @@
 import pandas as pd
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer
-
 SRC = "train_posts_tokenized.xlsx"
 OUT = "train_ldatopics.xlsx"
 
@@ -16,16 +15,13 @@ dtm = vectorizer.fit_transform(docs)
 
 print(f"Documents: {dtm.shape[0]:,}")
 print(f"Terms:     {dtm.shape[1]:,}")
-
 # ---------- LDA ----------
 N_TOPICS = 6
 lda = LatentDirichletAllocation(n_components=N_TOPICS,random_state=298)
 lda.fit(dtm)
-
 # ---------- top words ----------
 words = vectorizer.get_feature_names_out()
 topics = []
-
 for i, topic in enumerate(lda.components_):
     top_indices = topic.argsort()[:-20 - 1:-1]
     top_words = [words[j] for j in top_indices]
@@ -35,5 +31,4 @@ for i, topic in enumerate(lda.components_):
 
 topic_df = pd.DataFrame(topics)
 topic_df.to_excel(OUT, index=False)
-
 print(f"\nSaved: {OUT}")

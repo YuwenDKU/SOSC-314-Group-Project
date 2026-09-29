@@ -676,7 +676,61 @@ for k, s in zip(k_values, sil_scores):
 plt.tight_layout()
 plt.savefig('/content/fig_silhouette_by_k.png', dpi=300)
 plt.show()
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import KFold, cross_val_score
 
+# Load the labeled expanded sample
+df = pd.read_csv('/content/bilibili_expanded_labeled.csv')
+df['tokens'] = df['tokens'].fillna('')
+print(f"Loaded: {len(df)}")
+print(f"Columns: {df.columns.tolist()}")
+
+# Vectorize: create the numeric representation used by the classifiers
+cv = CountVectorizer(max_features=1000)
+X_count = cv.fit_transform(df['tokens'])
+print(f"X_count shape: {X_count.shape}")
+
+tfidf = TfidfVectorizer(max_features=1000)
+X_tfidf = tfidf.fit_transform(df['tokens'])
+print(f"X_tfidf shape: {X_tfidf.shape}")
+
+dims = ['genuine_attachment', 'emotional_substitution',
+        'playful_performance', 'dangerous_dependence']
+
+# Random seed stability: check whether F1 varies substantially across seeds
+print("\n=== Random seed stability (all 4 dimensions, Count) ===")
+for dim in dims:
+    print(f"\n{dim}:")
+    y = df[dim].astype(int)
+    f1_scores = []
+    for seed in [42, 0, 1, 7, 123]:
+        kfold = KFold(n_splits=5, shuffle=True, random_state=seed)
+        clf = LogisticRegression(max_iter=1000, class_weight='balanced', random_state=seed)
+        f1 = cross_val_score(clf, X_count, y, cv=kfold, scoring='f1').mean()
+        f1_scores.append(f1)
+        print(f"  seed={seed}: F1={f1:.4f}")
+    print(f"  → mean={sum(f1_scores)/len(f1_scores):.4f}, range={max(f1_scores)-min(f1_scores):.4f}")
+
+# Classifier stability: check whether F1 depends on the choice of classifier
+print("\n=== Classifier stability ===")
+kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+
+models = {
+    'LogisticRegression': LogisticRegression(max_iter=1000, class_weight='balanced', random_state=42),
+    'SVM': SVC(class_weight='balanced', random_state=42),
+    'RandomForest': RandomForestClassifier(class_weight='balanced', random_state=42, n_estimators=100),
+}
+
+for name, model in models.items():
+    print(f"\n{name}:")
+    for dim in dims:
+        y = df[dim].astype(int)
+        f1 = cross_val_score(model, X_count, y, cv=kfold, scoring='f1').mean()
+        print(f"  {dim}: F1={f1:.3f}")
 
 
 
